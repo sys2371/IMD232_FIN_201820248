@@ -8,8 +8,8 @@ function setup() {
   setCanvasContainer('canvas', 1, 1, true);
   angleMode(DEGREES);
 
-  let sliderX = 200;
-  let sliderY = 250; // Initial y-position for the first slider
+  let sliderX = 230;
+  let sliderY = 170; // Initial y-position for the first slider
 
   s1 = createSlider(1, 15, 15, 1).position(sliderX, sliderY);
   p1 = createP('elements').position(sliderX, s1.y + 5);
