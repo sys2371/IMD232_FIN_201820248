@@ -1,20 +1,21 @@
 let elementColors = [];
 let randomColorButton;
-let moveButton; // New button for movement
-let saveImageButton; // New button for saving the canvas as an image
-let moveSpeed = 1; // Initial movement speed
+let moveButton;
+let saveImageButton;
+let moveSpeed = 1;
+let saveImageText;
 
 function setup() {
   setCanvasContainer('canvas', 1, 1, true);
   angleMode(DEGREES);
 
   let sliderX = 230;
-  let sliderY = 170; // Initial y-position for the first slider
+  let sliderY = 170;
 
   s1 = createSlider(1, 15, 15, 1).position(sliderX, sliderY);
   p1 = createP('elements').position(sliderX, s1.y + 5);
 
-  sliderY += 60; // Adjust y-position for the next slider
+  sliderY += 60;
   s2 = createSlider(1, 20, 5, 1).position(sliderX, sliderY);
   p2 = createP('parts').position(sliderX, s2.y + 5);
 
@@ -34,7 +35,6 @@ function setup() {
   s6 = createSlider(0.1, 1, 0.1, 0.05).position(sliderX, sliderY);
   p6 = createP('Rotation speed').position(sliderX, s6.y + 5);
 
-  // Additional sliders for the user to control RGB values
   sliderY += 100;
   rSlider = createSlider(0, 255, 127).position(sliderX, sliderY);
   pR = createP('Red').position(sliderX, rSlider.y + 5);
@@ -47,21 +47,18 @@ function setup() {
   bSlider = createSlider(0, 255, 127).position(sliderX, sliderY);
   pB = createP('Blue').position(sliderX, bSlider.y + 5);
 
-  // Create Random Color button
   randomColorButton = createButton('Random Color').position(
     sliderX,
     sliderY + 60
   );
   randomColorButton.mousePressed(assignRandomColors);
 
-  // Create Move button
   moveButton = createButton('Change move type').position(
     sliderX,
     sliderY + 100
   );
   moveButton.mousePressed(toggleMovement);
 
-  // Initialize colors for each element
   for (let i = 0; i < s1.value(); i++) {
     elementColors.push({
       red: rSlider.value(),
@@ -70,12 +67,17 @@ function setup() {
     });
   }
 
-  // Create Save Image button
   saveImageButton = createButton('Save Image').position(sliderX, sliderY + 180);
   saveImageButton.mousePressed(saveCanvasAsImage);
-  // Apply custom style to the Save Image button
-  saveImageButton.style('background-color', '#4CAF50'); // Change color to green
-  saveImageButton.style('color', 'white'); // Change text color to white
+
+  saveImageButton.style('background-color', '#4CAF50');
+  saveImageButton.style('color', 'white');
+
+  saveImageText = createP('(※ press S for saving)').position(
+    sliderX + 0,
+    sliderY + 195
+  );
+  saveImageText.style('color', 'white');
 }
 
 function draw() {
@@ -85,7 +87,6 @@ function draw() {
   strokeWeight(3.5);
 
   for (let n = 0; n < s1.value(); n++) {
-    // Set stroke color for the current element
     stroke(elementColors[n].red, elementColors[n].green, elementColors[n].blue);
 
     beginShape();
@@ -107,7 +108,6 @@ function draw() {
 }
 
 function assignRandomColors() {
-  // Assign random colors to each element
   for (let i = 0; i < s1.value(); i++) {
     elementColors[i] = {
       red: random(255),
@@ -118,12 +118,10 @@ function assignRandomColors() {
 }
 
 function toggleMovement() {
-  // Toggle movement by changing the sign of moveSpeed
   moveSpeed *= -1;
 }
 
 function mouseClicked() {
-  // Check if the mouse is over the Random Color button
   if (
     mouseX > randomColorButton.x &&
     mouseX < randomColorButton.x + randomColorButton.width &&
@@ -137,7 +135,6 @@ function mouseClicked() {
 }
 
 function updateColors() {
-  // Update colors for each element based on user sliders
   for (let i = 0; i < s1.value(); i++) {
     elementColors[i] = {
       red: rSlider.value(),
@@ -148,12 +145,10 @@ function updateColors() {
 }
 
 function saveCanvasAsImage() {
-  // Save the canvas as an image file
   saveCanvas('myCanvas', 'png');
 }
 
 function keyPressed() {
-  // Save canvas when the 'S' key is pressed
   if (key === 'S' || key === 's') {
     saveCanvasAsImage();
   }
